@@ -45,7 +45,7 @@ fn parse_gearbox_line(
     let mut line_gear_matrix: Vec<GearType> = vec![];
     let mut line_part_number_sequences: PartNumberSequences = HashMap::new();
     let mut sequence_recorder_string: String = String::from("");
-    let mut line_symbol_coordinates: Vec<Coordinate> = vec![];
+    let mut line_symbol_coordinates: SymbolCoordinates = vec![];
 
     let chars: Vec<char> = line.chars().collect();
 
@@ -68,7 +68,7 @@ fn parse_gearbox_line(
                     line_gear_matrix.push(GearType::Nothing);
                 } else {
                     line_gear_matrix.push(GearType::Symbol(*char));
-                    line_symbol_coordinates.push(coordinate.clone());
+                    line_symbol_coordinates.push((*char, coordinate.clone()));
                 }
             }
             None => {}

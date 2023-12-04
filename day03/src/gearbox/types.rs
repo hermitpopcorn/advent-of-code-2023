@@ -29,7 +29,7 @@ impl Gearbox {
     pub fn get_part_numbers(&self) -> HashSet<Rc<PartNumberSequence>> {
         let mut part_numbers = HashSet::new();
 
-        for symbol_coordinate in &self.symbol_coordinates {
+        for (_symbol, symbol_coordinate) in &self.symbol_coordinates {
             let surrounding_coordinates =
                 get_surrounding_coordinates(*symbol_coordinate, self.gear_line_length);
 
@@ -44,6 +44,45 @@ impl Gearbox {
         }
 
         part_numbers
+    }
+
+    pub fn get_gears(&self) -> Vec<[Rc<PartNumberSequence>; 2]> {
+        let mut gears = vec![];
+
+        for (symbol, symbol_coordinate) in &self.symbol_coordinates {
+            if *symbol != '*' {
+                continue;
+            }
+
+            let surrounding_coordinates =
+                get_surrounding_coordinates(*symbol_coordinate, self.gear_line_length);
+
+            let mut part_numbers = HashSet::new();
+            for possible_coordinate in surrounding_coordinates {
+                match self.part_number_sequences.get(&possible_coordinate) {
+                    Some(sequence) => {
+                        part_numbers.insert(sequence);
+                    }
+                    None => {}
+                }
+
+                if part_numbers.len() > 2 {
+                    break;
+                }
+            }
+
+            if part_numbers.len() != 2 {
+                continue;
+            }
+
+            let mut iter = part_numbers.into_iter();
+            let first_gear = iter.next().unwrap();
+            let second_gear = iter.next().unwrap();
+
+            gears.push([first_gear.clone(), second_gear.clone()]);
+        }
+
+        gears
     }
 }
 
@@ -146,4 +185,4 @@ impl Debug for Coordinate {
 
 pub type GearMatrix = Vec<Vec<GearType>>;
 pub type PartNumberSequences = HashMap<Coordinate, Rc<PartNumberSequence>>;
-pub type SymbolCoordinates = Vec<Coordinate>;
+pub type SymbolCoordinates = Vec<(char, Coordinate)>;
