@@ -37,3 +37,9 @@ Then I continued with the native approach of "Okay, let's not create big lists i
 I don't know how to optimize this. Each step of the way has a different set of range so I don't know how to reliably make a dictionary and cache part of the process without it going wrong midway.
 
 It's only the fifth day and I'm stumped already. This does not bode well.
+
+## Day 06
+
+A breather day; this day's far easier than the previous one.
+
+Still not unlike the previous days, the second part of this day brings about a very big number compared to the first part. Fortunately, there are no branching paths, so I decided on a simple solution of linear calculation. The answer didn't take much time to show. Maybe I can optimize this by going from both ends at the same time, or maybe some other way. I'll think about it at a later date.
