@@ -25,3 +25,15 @@ I don't think I'll be tuning this anytime soon, though.
 Deceptive! The first part was very similar to Day 02, leading me to base the solution on the code for that day. But then the second part rolls around with greater complexity.
 
 I thought I had to go the recursive path that's going to exponentially increase my computation times since it has to redo the calculations over and over, but after thinking it out a bit, I can just work bottom-to-top, caching the results along the way to minimize recalculation. Is this the so-called "dynamic programming"?
+
+## Day 05
+
+The numbers got so big that `u32` overflowed. I went with usize instead for this day.
+
+I started part 2 with the naive approach of "Okay, let's just loop and make a list of all the seeds in the seed ranges and then loop over all of them." The resulting seed list was so big and took so much memory that the executable just killed itself... Oh well. Start small and then tune it for sufficient speed!
+
+Then I continued with the native approach of "Okay, let's not create big lists in memory, let's just do loops with short-lived integers in the stack and loop over all of them." The resulting run time took so much time that I almost killed myself... Oh well. I slapped Rayon on, pretended parallelism will help me, and hoped for the best. At least I got my answer? After hours of waiting...
+
+I don't know how to optimize this. Each step of the way has a different set of range so I don't know how to reliably make a dictionary and cache part of the process without it going wrong midway.
+
+It's only the fifth day and I'm stumped already. This does not bode well.
