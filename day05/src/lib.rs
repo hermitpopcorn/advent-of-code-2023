@@ -63,7 +63,7 @@ pub enum ItemType {
 
 pub type ItemTypeMapping = (ItemType, ItemType); // (From, To)
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct AlmanacRange {
     pub destination_start: usize,
     pub source_start: usize,
