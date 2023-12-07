@@ -1,11 +1,13 @@
 use std::collections::HashSet;
 
-pub fn parse_card_into_matching_numbers(input: &str) -> Vec<u32> {
-    let (_card_number, card_body) = get_card_number_and_body(input);
+pub fn parse_card_into_card_number_and_matching_numbers(input: &str) -> (u32, Vec<u32>) {
+    let (card_number, card_body) = get_card_number_and_body(input);
 
     let (winning_numbers, my_numbers) = parse_card_body_into_number_vectors(&card_body);
 
-    get_matching_numbers(winning_numbers, my_numbers)
+    let matching_numbers = get_matching_numbers(winning_numbers, my_numbers);
+
+    (card_number, matching_numbers)
 }
 
 fn get_card_number_and_body(input: &str) -> (u32, String) {

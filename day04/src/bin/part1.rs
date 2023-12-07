@@ -1,4 +1,4 @@
-use day04::parse_card_into_matching_numbers;
+use day04::parse_card_into_card_number_and_matching_numbers;
 
 fn main() {
     let inputs = std::fs::read_to_string("input/real.txt").unwrap();
@@ -10,7 +10,7 @@ fn main() {
             continue;
         }
 
-        let matching_numbers = parse_card_into_matching_numbers(input);
+        let matching_numbers = parse_card_into_card_number_and_matching_numbers(input).1;
         let points = calculate_points_from_matching_numbers(matching_numbers);
         values.push(points);
 
