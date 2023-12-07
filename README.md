@@ -43,3 +43,7 @@ It's only the fifth day and I'm stumped already. This does not bode well.
 A breather day; this day's far easier than the previous one.
 
 Still not unlike the previous days, the second part of this day brings about a very big number compared to the first part. Fortunately, there are no branching paths, so I decided on a simple solution of linear calculation. The answer didn't take much time to show. Maybe I can optimize this by going from both ends at the same time, or maybe some other way. I'll think about it at a later date.
+
+## Day 07
+
+I think the main point of this day's puzzle is sorting. Since I'm using Rust's built-in sort function, the language takes care of the sorting algorithm for me. The only thing I need to do is specify how to order the items. The first part is easy enough, and the simplicity of the requirement caused me to write the rules with multiple if-else blocks ala YandereDev. When I started on the second part and I had to change the existing rules, I realized just how messy this looks. It does work, though, but if a need arises where we need to add another special rule into the mix in the future, it'd be best to scrap it and think up something smarter.
