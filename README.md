@@ -19,3 +19,9 @@ I think this one is far trickier than the last.
 This time, I ditched the thought of optimization out of the window and just wrote in a way that I deem as "good structure." As Fowler said, "write tunable software first and then tune it for sufficient speed."
 
 I don't think I'll be tuning this anytime soon, though.
+
+## Day 04
+
+Deceptive! The first part was very similar to Day 02, leading me to base the solution on the code for that day. But then the second part rolls around with greater complexity.
+
+I thought I had to go the recursive path that's going to exponentially increase my computation times since it has to redo the calculations over and over, but after thinking it out a bit, I can just work bottom-to-top, caching the results along the way to minimize recalculation. Is this the so-called "dynamic programming"?
