@@ -13,6 +13,11 @@ fn main() {
         process_instructions_on_nodes_and_get_steps_count_for_each_node(&instructions, &a_nodes);
 
     println!("Finished nodes: {:?}", finished_nodes);
+
+    println!(
+        "LCM: {}",
+        calculate_least_common_multiple_for_vector(finished_nodes.values().cloned().collect())
+    );
 }
 
 fn get_a_nodes(map_nodes: &HashMap<String, MapNodePointer>) -> Vec<MapNodePointer> {
@@ -100,4 +105,25 @@ fn follow_instruction(instruction: char, node: &MapNodePointer) -> MapNodePointe
     };
 
     next.unwrap()
+}
+
+fn calculate_least_common_multiple_for_vector(values: Vec<usize>) -> usize {
+    let mut lcm = 1;
+    for i in values {
+        lcm = calculate_least_common_multiple(lcm, i);
+    }
+
+    lcm
+}
+
+fn calculate_least_common_multiple(a: usize, b: usize) -> usize {
+    (a * b) / calculate_greatest_common_divisor(a, b)
+}
+
+fn calculate_greatest_common_divisor(a: usize, b: usize) -> usize {
+    if a == 0 {
+        return b;
+    }
+
+    calculate_greatest_common_divisor(b.rem_euclid(a), a)
 }
