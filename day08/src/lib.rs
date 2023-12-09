@@ -6,9 +6,9 @@ use std::{
     rc::Rc,
 };
 
-type MapNodePointer = Rc<RefCell<MapNode>>;
+pub type MapNodePointer = Rc<RefCell<MapNode>>;
 
-#[derive(Debug, Eq)]
+#[derive(Debug, Eq, Clone)]
 pub struct MapNode {
     pub label: String,
     pub left: Option<MapNodePointer>,
