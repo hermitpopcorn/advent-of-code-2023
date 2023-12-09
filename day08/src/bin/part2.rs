@@ -9,35 +9,10 @@ fn main() {
 
     print_nodes(&a_nodes);
 
-    let mut steps: usize = 0;
-    let mut current_nodes = a_nodes.clone();
-    let mut best_finished_count_so_far = 0;
+    let finished_nodes =
+        process_instructions_on_nodes_and_get_steps_count_for_each_node(&instructions, &a_nodes);
 
-    let instruction_looping_iterator = instructions.chars().cycle();
-    for next_instruction in instruction_looping_iterator {
-        let finished_nodes = get_finished_nodes(&current_nodes);
-        let all_finished = finished_nodes.values().all(|f| *f);
-        if all_finished {
-            break;
-        }
-
-        let finished_nodes_count = finished_nodes.values().filter(|f| **f).count();
-        if finished_nodes_count > best_finished_count_so_far {
-            for node in &current_nodes {
-                let label = { node.borrow().label.clone() };
-                let status = if label.ends_with('Z') { "Y" } else { "" };
-                println!("{} {}", label, status);
-            }
-        }
-
-        print_best_finished_count_so_far(steps, &mut best_finished_count_so_far, &finished_nodes);
-
-        have_nodes_follow_instruction(next_instruction, &mut current_nodes);
-
-        steps += 1;
-    }
-
-    println!("Steps: {}", steps);
+    println!("Finished nodes: {:?}", finished_nodes);
 }
 
 fn get_a_nodes(map_nodes: &HashMap<String, MapNodePointer>) -> Vec<MapNodePointer> {
@@ -63,38 +38,56 @@ fn print_nodes(nodes: &Vec<MapNodePointer>) {
     }
 }
 
-fn get_finished_nodes(nodes: &Vec<MapNodePointer>) -> HashMap<usize, bool> {
+fn process_instructions_on_nodes_and_get_steps_count_for_each_node(
+    instructions: &str,
+    a_nodes: &Vec<MapNodePointer>,
+) -> HashMap<usize, usize> {
     let mut finished_nodes = HashMap::new();
+    let mut steps: usize = 0;
+    let mut current_nodes = a_nodes.clone();
 
-    for (index, node) in nodes.iter().enumerate() {
-        let current_label = node.borrow().label.clone();
-        let is_finished = current_label.ends_with('Z');
-        finished_nodes.insert(index, is_finished);
+    let instruction_looping_iterator = instructions.chars().cycle();
+    for next_instruction in instruction_looping_iterator {
+        if finished_nodes.len() >= a_nodes.len() {
+            break;
+        }
+
+        for index in 0..current_nodes.len() {
+            process_instruction_on_node(
+                steps,
+                next_instruction,
+                &mut current_nodes,
+                index,
+                &mut finished_nodes,
+            );
+        }
+
+        steps += 1;
     }
 
     finished_nodes
 }
 
-#[allow(dead_code)]
-fn print_best_finished_count_so_far(
+fn process_instruction_on_node(
     steps: usize,
-    best_finished_count_so_far: &mut usize,
-    finished_nodes: &HashMap<usize, bool>,
+    next_instruction: char,
+    current_nodes: &mut Vec<MapNodePointer>,
+    index: usize,
+    finished_nodes: &mut HashMap<usize, usize>,
 ) {
-    let count = finished_nodes.values().filter(|f| **f).count();
-    if count > *best_finished_count_so_far {
-        *best_finished_count_so_far = count;
-        println!("Finished: {} | Steps: {}", count, steps);
+    if finished_nodes.contains_key(&index) {
+        return;
     }
-}
 
-fn have_nodes_follow_instruction(instruction: char, nodes: &mut Vec<MapNodePointer>) {
-    (0..nodes.len()).into_iter().for_each(|index| {
-        let current_node = nodes.get_mut(index).unwrap();
-        let next_node = follow_instruction(instruction, current_node);
+    let current_node = current_nodes.get_mut(index).unwrap();
 
-        *current_node = next_node;
-    });
+    if current_node.borrow().label.ends_with('Z') {
+        finished_nodes.insert(index, steps);
+        return;
+    }
+
+    let next_node = follow_instruction(next_instruction, current_node);
+    *current_node = next_node;
 }
 
 fn follow_instruction(instruction: char, node: &MapNodePointer) -> MapNodePointer {
