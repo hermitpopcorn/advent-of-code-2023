@@ -1,4 +1,7 @@
-use day09::{get_difference_matrix, parse_file_into_vector_of_histories, History, HistoryValue};
+use day09::{
+    calculate_next_history_upwards, get_difference_matrix, parse_file_into_vector_of_histories,
+    History, HistoryValue,
+};
 
 fn main() {
     let histories = parse_file_into_vector_of_histories("input/real.txt");
@@ -8,7 +11,9 @@ fn main() {
     for history in histories {
         let difference_matrix = get_difference_matrix(history);
 
-        let next_history_value = get_next_history_value(difference_matrix);
+        let difference_matrix_with_next_value = calculate_next_history_upwards(difference_matrix);
+
+        let next_history_value = get_next_history_value(difference_matrix_with_next_value);
 
         next_history_values.push(next_history_value);
     }

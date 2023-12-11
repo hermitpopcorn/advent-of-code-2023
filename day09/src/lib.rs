@@ -31,8 +31,6 @@ pub fn get_difference_matrix(history: History) -> Vec<History> {
     let starting_matrix = vec![history.clone()];
     let difference_matrix = get_difference_matrix_recursive(starting_matrix, history);
 
-    let difference_matrix = calculate_next_history_upwards(difference_matrix);
-
     difference_matrix
 }
 
@@ -55,7 +53,7 @@ fn is_final_difference_row(difference_row: &History) -> bool {
     difference_row.iter().all(|number| *number == 0)
 }
 
-fn calculate_next_history_upwards(mut matrix: Vec<History>) -> Vec<History> {
+pub fn calculate_next_history_upwards(mut matrix: Vec<History>) -> Vec<History> {
     for row_index in (0..matrix.len()).rev() {
         if row_index == matrix.len() - 1 {
             matrix[row_index].push(0);
