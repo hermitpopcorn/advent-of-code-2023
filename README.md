@@ -63,3 +63,9 @@ After hours and hours of waiting for the numbers to pop out, which never did, I 
 So, yeah. I got the second gold star without finishing the part 2 solution. I did come back and code in how to calculate LCM in the part 2 solution, though. Turns out it involves recursion and modulo (thanks GeeksForGeeks). I made use of my experience of using modulo operator in Rust: don't use `%`, use `rem_euclid()`. Though I don't remember exactly why.
 
 Thanks to my first attempt at part 2 solution I also found out that the binary compiled with the debug profile and release profile has a very significant speed difference. Without using the release profile, my program took 10~20 seconds to get to where two nodes to finish together (on the 670079th step) but using the release profile, it only took ~2 seconds.
+
+## Day 09
+
+Another breather day, I think.
+
+Thankfully, how to solve the difference is spelled out in the problem. As simple as it is, I might have not thought of doing this "difference matrix" to calculate the next or the pervious value had they not mentioned it. I know that this is a basic, school-taught way of doing arithmetic/geometric sequence, but my dumbass would've struggled to remember how to do it anyway. There's always Google, though.
