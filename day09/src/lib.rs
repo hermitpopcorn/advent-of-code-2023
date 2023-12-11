@@ -69,3 +69,20 @@ pub fn calculate_next_history_upwards(mut matrix: Vec<History>) -> Vec<History> 
 
     matrix
 }
+
+pub fn calculate_previous_history_upwards(mut matrix: Vec<History>) -> Vec<History> {
+    for row_index in (0..matrix.len()).rev() {
+        if row_index == matrix.len() - 1 {
+            matrix[row_index].push(0);
+            continue;
+        }
+
+        let first_of_last_row = matrix[row_index + 1].first().unwrap();
+        let first_of_this_row = matrix[row_index].first().unwrap();
+        let previous_history_number = first_of_this_row - first_of_last_row;
+
+        matrix[row_index].insert(0, previous_history_number);
+    }
+
+    matrix
+}
