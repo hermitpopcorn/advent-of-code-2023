@@ -69,3 +69,11 @@ Thanks to my first attempt at part 2 solution I also found out that the binary c
 Another breather day, I think.
 
 Thankfully, how to solve the difference is spelled out in the problem. As simple as it is, I might have not thought of doing this "difference matrix" to calculate the next or the pervious value had they not mentioned it. I know that this is a basic, school-taught way of doing arithmetic/geometric sequence, but my dumbass would've struggled to remember how to do it anyway. There's always Google, though.
+
+## Day 10
+
+**I'm stumped.**
+
+I can NOT figure out how to solve part 2. I just can't. It's easy to visualize the pipe grid, but to separate which one's enclosed or not... I just don't know how to describe that in code.
+
+Since I don't know how to proceed at all, I'll have to skip and promise to come back at another time.
