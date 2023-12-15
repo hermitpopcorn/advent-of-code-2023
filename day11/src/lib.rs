@@ -3,8 +3,6 @@ use std::{
     io::{BufRead, BufReader},
 };
 
-const EXPANSION_SIZE: usize = 2;
-
 #[derive(PartialEq, Eq, Clone)]
 pub enum SpaceObject {
     Empty,
@@ -69,7 +67,7 @@ pub fn parse_file_to_space_grid(path: &str) -> SpaceGrid {
     space_grid
 }
 
-pub fn get_expanded_space_grid(space_grid: SpaceGrid) -> SpaceGrid {
+pub fn get_expanded_space_grid(space_grid: SpaceGrid, expansion_size: usize) -> SpaceGrid {
     let mut expanded_space_grid = vec![];
 
     fn contains_galaxy(vec: &Vec<Space>) -> bool {
@@ -85,7 +83,7 @@ pub fn get_expanded_space_grid(space_grid: SpaceGrid) -> SpaceGrid {
         let mut cloned_row = row.clone();
         if expand {
             for space in cloned_row.iter_mut() {
-                space.size = EXPANSION_SIZE;
+                space.size = expansion_size;
             }
         }
 
@@ -105,7 +103,7 @@ pub fn get_expanded_space_grid(space_grid: SpaceGrid) -> SpaceGrid {
 
         if expand {
             for row in expanded_space_grid.iter_mut() {
-                row[column_index].size = EXPANSION_SIZE;
+                row[column_index].size = expansion_size;
             }
         }
     }

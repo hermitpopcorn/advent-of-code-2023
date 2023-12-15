@@ -8,7 +8,7 @@ use day11::{
 fn main() {
     let space_grid = parse_file_to_space_grid("input/real.txt");
 
-    let expanded_space_grid = get_expanded_space_grid(space_grid);
+    let expanded_space_grid = get_expanded_space_grid(space_grid, 2);
 
     let galaxy_coordinates = find_galaxies(&expanded_space_grid);
 
