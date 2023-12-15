@@ -20,6 +20,7 @@ fn main() {
             }
 
             let distance = calculate_distance_between_coordinates(
+                &expanded_space_grid,
                 galaxy_coordinate,
                 comparison_galaxy_coordinate,
             );

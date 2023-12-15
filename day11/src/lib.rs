@@ -1,7 +1,6 @@
 use std::{
     fs::File,
     io::{BufRead, BufReader},
-    ops::RangeInclusive,
 };
 
 const EXPANSION_SIZE: usize = 2;
@@ -128,9 +127,62 @@ pub fn find_galaxies(space_grid: &SpaceGrid) -> Vec<Coordinates> {
     coordinates
 }
 
-pub fn calculate_distance_between_coordinates(a: &Coordinate, b: &Coordinate) -> usize {
-    let x_distance = a.0.abs_diff(b.0);
-    let y_distance = a.1.abs_diff(b.1);
+pub fn calculate_distance_between_coordinates(
+    space_grid: &SpaceGrid,
+    a: &Coordinates,
+    b: &Coordinates,
+) -> usize {
+    let stepped_spaces = pathfind_coordinates(a, b);
 
-    x_distance + y_distance
+    let mut distance = 0;
+    for stepped_space in stepped_spaces {
+        let space = &space_grid[stepped_space.1][stepped_space.0];
+        distance += space.size;
+    }
+
+    distance
+}
+
+fn pathfind_coordinates(start: &Coordinates, target: &Coordinates) -> Vec<Coordinates> {
+    let x_moves = pathfind_axis(start.0, target.0);
+    let y_moves = pathfind_axis(start.1, target.1);
+
+    let mut current_position = start.clone();
+    let mut stepped_spaces = vec![];
+
+    if let Some(x_moves) = x_moves {
+        for x_move in x_moves {
+            current_position = (x_move, current_position.1);
+            stepped_spaces.push(current_position.clone());
+        }
+    }
+
+    if let Some(y_moves) = y_moves {
+        for y_move in y_moves {
+            current_position = (current_position.0, y_move);
+            stepped_spaces.push(current_position.clone());
+        }
+    }
+
+    stepped_spaces
+}
+
+fn pathfind_axis(a: usize, b: usize) -> Option<Vec<usize>> {
+    if a == b {
+        return None;
+    }
+
+    let mut path = vec![];
+
+    if a < b {
+        for i in (a + 1)..=b {
+            path.push(i);
+        }
+    } else {
+        for i in b..=(a - 1) {
+            path.insert(0, i);
+        }
+    }
+
+    Some(path)
 }
