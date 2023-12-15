@@ -1,7 +1,10 @@
 use std::{
     fs::File,
     io::{BufRead, BufReader},
+    ops::RangeInclusive,
 };
+
+const EXPANSION_SIZE: usize = 2;
 
 #[derive(PartialEq, Eq, Clone)]
 pub enum SpaceObject {
@@ -46,7 +49,22 @@ pub fn parse_file_to_space_grid(path: &str) -> SpaceGrid {
 
         let vector_of_chars = line.chars().collect::<Vec<char>>();
 
-        space_grid.push(vector_of_chars);
+        let mut space_row = vec![];
+        for character in vector_of_chars.iter() {
+            match character {
+                '.' => space_row.push(Space {
+                    object: SpaceObject::Empty,
+                    size: 1,
+                }),
+                '#' => space_row.push(Space {
+                    object: SpaceObject::Galaxy,
+                    size: 1,
+                }),
+                _ => panic!("Invalid character"),
+            };
+        }
+
+        space_grid.push(space_row);
     }
 
     space_grid
@@ -55,34 +73,40 @@ pub fn parse_file_to_space_grid(path: &str) -> SpaceGrid {
 pub fn get_expanded_space_grid(space_grid: SpaceGrid) -> SpaceGrid {
     let mut expanded_space_grid = vec![];
 
+    fn contains_galaxy(vec: &Vec<Space>) -> bool {
+        vec.iter().any(|r| r.is_not_empty())
+    }
+
     for row in space_grid.iter() {
         let mut expand = false;
-        if !row.contains(&'#') {
+        if !contains_galaxy(row) {
             expand = true;
         }
 
-        expanded_space_grid.push(row.clone());
+        let mut cloned_row = row.clone();
         if expand {
-            expanded_space_grid.push(row.clone());
+            for space in cloned_row.iter_mut() {
+                space.size = EXPANSION_SIZE;
+            }
         }
+
+        expanded_space_grid.push(cloned_row);
     }
 
-    let mut column_expansions = 0;
     for column_index in 0..space_grid.first().unwrap().len() {
         let column = space_grid
             .iter()
-            .map(|row| row[column_index])
-            .collect::<Vec<char>>();
+            .map(|row| row[column_index].clone())
+            .collect::<Vec<Space>>();
 
         let mut expand = false;
-        if !column.contains(&'#') {
+        if !contains_galaxy(&column) {
             expand = true;
         }
 
         if expand {
-            column_expansions += 1;
             for row in expanded_space_grid.iter_mut() {
-                row.insert(column_index + column_expansions, '.');
+                row[column_index].size = EXPANSION_SIZE;
             }
         }
     }
@@ -90,14 +114,13 @@ pub fn get_expanded_space_grid(space_grid: SpaceGrid) -> SpaceGrid {
     expanded_space_grid
 }
 
-pub fn find_galaxies(space_grid: &SpaceGrid) -> Vec<Coordinate> {
+pub fn find_galaxies(space_grid: &SpaceGrid) -> Vec<Coordinates> {
     let mut coordinates = vec![];
 
     for (row_index, row) in space_grid.iter().enumerate() {
         for (column_index, column) in row.iter().enumerate() {
-            if *column == '#' {
-                // Plus one because I don't want them to be 0-indexed
-                coordinates.push((column_index + 1, row_index + 1));
+            if column.is_not_empty() {
+                coordinates.push((column_index, row_index));
             }
         }
     }
