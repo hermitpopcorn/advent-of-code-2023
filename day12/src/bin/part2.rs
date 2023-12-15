@@ -1,4 +1,5 @@
 use day12::{get_possible_arragements, parse_file_to_condition_records, ConditionRecord};
+use rayon::prelude::*;
 
 const UNFOLD_REPEATS: usize = 5;
 
@@ -10,17 +11,18 @@ fn main() {
         .map(|cr| unfold_condition_record(cr))
         .collect::<Vec<ConditionRecord>>();
 
-    let mut total_possible_arrangements = 0;
-    for condition_record in condition_records.iter() {
+    let possible_arrangements = condition_records.par_iter().map(|condition_record| {
         let possible_arrangements = get_possible_arragements(condition_record);
-        total_possible_arrangements += possible_arrangements;
 
         println!(
             "Notation: {}, Damaged grouping: {:?}, Possible arrangements: {}",
             condition_record.notation, condition_record.damaged_grouping, possible_arrangements
-        )
-    }
+        );
 
+        possible_arrangements
+    });
+
+    let total_possible_arrangements = possible_arrangements.sum::<usize>();
     println!(
         "Total possible arrangements: {}",
         total_possible_arrangements
