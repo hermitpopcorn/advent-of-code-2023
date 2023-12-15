@@ -52,7 +52,20 @@ pub fn get_possible_arragements(condition_record: &ConditionRecord) -> usize {
         .filter(|&c| c == '?')
         .count() as u32;
 
+    let confirmed_damaged_count = condition_record
+        .notation
+        .chars()
+        .filter(|f| *f == '#')
+        .count();
+    let damaged_count_in_grouping = condition_record.damaged_grouping.iter().sum::<u8>() as usize;
+
     for i in 0..(2 as usize).pow(question_marks_count) {
+        let try_damaged_count = count_ones_in_binary(i);
+
+        if try_damaged_count + confirmed_damaged_count != damaged_count_in_grouping {
+            continue;
+        }
+
         let binary_notation = make_binary_notation(i, question_marks_count as usize);
         let try_notation = get_try_notation(&condition_record.notation, &binary_notation);
         let is_arrangement_valid =
@@ -64,6 +77,18 @@ pub fn get_possible_arragements(condition_record: &ConditionRecord) -> usize {
     }
 
     possible_arrangements
+}
+
+fn count_ones_in_binary(number: usize) -> usize {
+    let mut count = 0;
+    let mut n = number;
+
+    while n != 0 {
+        n &= n - 1;
+        count += 1;
+    }
+
+    count
 }
 
 fn make_binary_notation(number: usize, length: usize) -> String {
