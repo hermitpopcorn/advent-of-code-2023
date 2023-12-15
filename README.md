@@ -77,3 +77,13 @@ Thankfully, how to solve the difference is spelled out in the problem. As simple
 I can NOT figure out how to solve part 2. I just can't. It's easy to visualize the pipe grid, but to separate which one's enclosed or not... I just don't know how to describe that in code.
 
 Since I don't know how to proceed at all, I'll have to skip and promise to come back at another time.
+
+## Day 11
+
+When I was doing the first part, I actually managed to predict the second part. "Hm, what if in the next part each empty row and column gets expanded to some arbitrary size... like 18?" Although I'm way off on the size part, the second part actually does go in that direction. It made me feel a slight regret for doing the more simple vector manipulation (inserting copies of rows/columns) instead of putting in the size data in each row/column. But, come on, give me some slack. Don't overengineer at first because YAGNI*, right? Turns out... YAGNI**.
+
+*) You aren't gonna need it
+
+**) You ARE gonna need it
+
+I also tried tackling Day 10 part 2 again. Still couldn't come up with anything...
