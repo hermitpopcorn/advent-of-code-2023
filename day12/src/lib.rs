@@ -69,8 +69,10 @@ pub fn get_possible_arragements(condition_record: &ConditionRecord) -> usize {
 fn make_binary_notation(number: usize, length: usize) -> String {
     let mut binary_notation = format!("{:b}", number);
 
-    while binary_notation.len() < length {
-        binary_notation = format!("0{}", binary_notation);
+    if binary_notation.len() < length {
+        let pad_length = length - binary_notation.len();
+        let padding = "0".repeat(pad_length);
+        binary_notation = format!("{}{}", padding, binary_notation);
     }
 
     binary_notation
