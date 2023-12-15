@@ -3,9 +3,36 @@ use std::{
     io::{BufRead, BufReader},
 };
 
-pub type SpaceGrid = Vec<Vec<char>>;
+#[derive(PartialEq, Eq, Clone)]
+pub enum SpaceObject {
+    Empty,
+    Galaxy,
+}
 
-pub type Coordinate = (usize, usize);
+#[derive(Clone)]
+pub struct Space {
+    pub object: SpaceObject,
+    pub size: usize,
+}
+
+impl Space {
+    pub fn is_empty(&self) -> bool {
+        if self.object == SpaceObject::Empty {
+            return true;
+        }
+
+        false
+    }
+
+    pub fn is_not_empty(&self) -> bool {
+        !self.is_empty()
+    }
+}
+
+pub type SpaceGrid = Vec<Vec<Space>>;
+
+pub type Coordinate = usize;
+pub type Coordinates = (Coordinate, Coordinate);
 
 pub fn parse_file_to_space_grid(path: &str) -> SpaceGrid {
     let file = File::open(&path).unwrap();
