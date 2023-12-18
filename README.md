@@ -87,3 +87,9 @@ When I was doing the first part, I actually managed to predict the second part. 
 **) You ARE gonna need it
 
 I also tried tackling Day 10 part 2 again. Still couldn't come up with anything...
+
+## Day 12
+
+Another roadblock. Since Day 10 I had a feeling I'd hit another one soon. This time it's an algorithm issue; I know how to solve it, I just don't know how to solve it _faster_. Part 2 dictates that I 5x the data which causes computing time required to shoot up really, really _exponentially_. For shits and giggles I tried running the program with 1x and 2x data, and compare them. 1x data took 1 seconds to finish. 2x data took 8 hours and 11 minutes. 5x data would take at least the heat death of the universe to complete.
+
+Like before, I'll postpone this and go on to the next day.
