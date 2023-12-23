@@ -91,6 +91,7 @@ fn translate_diagram(diagram: &Diagram) -> Diagram {
     translated_diagram
 }
 
+#[derive(Debug, PartialEq, Eq)]
 pub enum Score {
     Horizontal(usize),
     Vertical(usize),
