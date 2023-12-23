@@ -93,3 +93,7 @@ I also tried tackling Day 10 part 2 again. Still couldn't come up with anything.
 Another roadblock. Since Day 10 I had a feeling I'd hit another one soon. This time it's an algorithm issue; I know how to solve it, I just don't know how to solve it _faster_. Part 2 dictates that I 5x the data which causes computing time required to shoot up really, really _exponentially_. For shits and giggles I tried running the program with 1x and 2x data, and compare them. 1x data took 1 seconds to finish. 2x data took 8 hours and 11 minutes. 5x data would take at least the heat death of the universe to complete.
 
 Like before, I'll postpone this and go on to the next day.
+
+## Day 13
+
+I cheated for this day. I swore I won't look at other people's solutions elsewhere until I've gone through all the days by myself, but this one made me break that promise... because I did not understand the part 2 question. Though reading the subreddit made me understood what the question wanted, unfortunately, I also read someone posting a general idea on how to solve it. So while I did figure out how to code it, I didn't solve the question itself. One and a half star for this day, I guess.
