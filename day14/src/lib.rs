@@ -3,20 +3,21 @@ use std::{
     io::{BufRead, BufReader},
 };
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum ThingType {
     Nothing,
     Roller,
     Stopper,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct Thing {
     pub what: ThingType,
     pub location: usize,
 }
 
 pub type Line = Vec<Thing>;
+pub type Map = Vec<Vec<Thing>>;
 
 pub fn parse_file_to_lines(path: &str) -> Vec<Line> {
     let two_dimensional_char_map = parse_file_to_2d_char_map(path);
@@ -118,7 +119,7 @@ pub fn tilt_line(line: Line) -> Line {
     }
 
     if roller_stacks.len() > 0 {
-    process_stopper(None, &mut roller_stacks);
+        process_stopper(None, &mut roller_stacks);
     }
 
     tilted_line
@@ -137,4 +138,85 @@ pub fn calculate_load(line: Line) -> usize {
     }
 
     total_load
+}
+
+pub fn parse_file_to_2d_map(path: &str) -> Map {
+    let two_dimensional_char_map = parse_file_to_2d_char_map(path);
+    let lines = parse_2d_char_map_to_lines(two_dimensional_char_map);
+    let map = reconstruct_2d_thing_map_from_vector_of_lines(lines);
+    map
+}
+
+pub fn reconstruct_2d_thing_map_from_vector_of_lines(lines: Vec<Line>) -> Map {
+    let mut map = vec![];
+
+    let x_length = lines.len();
+    let y_length = lines.first().unwrap().len();
+
+    for x in 0..x_length {
+        let mut x_map_line = vec![];
+        for y in 0..y_length {
+            x_map_line.push(lines[y][x].clone());
+        }
+        map.push(x_map_line);
+    }
+
+    map
+}
+
+pub fn rotate_map_90degrees_clockwise(map: Map) -> Map {
+    let mut rotated_map = vec![];
+
+    let x_length = map.len();
+    let y_length = map.first().unwrap().len();
+
+    for x in 0..x_length {
+        let mut x_map_line = vec![];
+        for y in (0..y_length).rev() {
+            x_map_line.push(map[y][x].clone());
+        }
+        rotated_map.push(x_map_line);
+    }
+
+    rotated_map
+}
+
+pub fn spin_cycle_map(mut map: Map) -> Map {
+    for _cycle in 0..4 {
+        map = tilt_map(map);
+        map = rotate_map_90degrees_clockwise(map);
+    }
+
+    map
+}
+
+pub fn tilt_map(map: Map) -> Map {
+    let mut tilted_lines = vec![];
+
+    for line in convert_map_to_lines(map) {
+        let tilted_line = tilt_line(line);
+        tilted_lines.push(tilted_line);
+    }
+
+    reconstruct_2d_thing_map_from_vector_of_lines(tilted_lines)
+}
+
+pub fn convert_map_to_lines(map: Map) -> Vec<Line> {
+    let mut lines = vec![];
+
+    let x_length = map.len();
+    let y_length = map.first().unwrap().len();
+
+    for x in 0..x_length {
+        let mut line = vec![];
+        for y in 0..y_length {
+            line.push(Thing {
+                what: map[y][x].what.clone(),
+                location: y,
+            });
+        }
+        lines.push(line);
+    }
+
+    lines
 }
