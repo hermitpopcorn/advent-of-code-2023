@@ -97,3 +97,13 @@ Like before, I'll postpone this and go on to the next day.
 ## Day 13
 
 I cheated for this day. I swore I won't look at other people's solutions elsewhere until I've gone through all the days by myself, but this one made me break that promise... because I did not understand the part 2 question. Though reading the subreddit made me understood what the question wanted, unfortunately, I also read someone posting a general idea on how to solve it. So while I did figure out how to code it, I didn't solve the question itself. One and a half star for this day, I guess.
+
+## Day 14
+
+I felt both good and bad about this day's solution.
+
+Good because I figured out that rather than repeat the process 1000000000 times, I can just repeat it until I find a pattern. Once I got the pattern, I can just calculate which pattern the 1000000000th cycle is and then take that out of the pattern cache. Thankfully the pattern repeats without duplicates, so I can just do the quick and dirty `first half == second half` to decide whether the pattern is complete or not.
+
+Bad because, on top of that strange pattern-finding algorithm, I also did not refactor the part 1 solution. The part 1 solution I coded is VERY geared for part 1's solution, so much that 80% of it is unusable in part 2. Instead of refactoring it so that both solution share more code, I just created new functions and marched on. I even wrote two functions to parse the input file, even though I usually (on previous days) just write one and use it for both parts. Now the `lib.rs` file feels like it's filled by two different modules. I failed to predict what kind of question part 2 will be, and because of it, the part 1 solution code couldn't fit with new requirements. It also forced me to solve part 2 in part 1's mindset, causing the whole process to even get more jumbled.
+
+I did get two stars for this day, but I'm not that happy.
