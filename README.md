@@ -107,3 +107,11 @@ Good because I figured out that rather than repeat the process 1000000000 times,
 Bad because, on top of that strange pattern-finding algorithm, I also did not refactor the part 1 solution. The part 1 solution I coded is VERY geared for part 1's solution, so much that 80% of it is unusable in part 2. Instead of refactoring it so that both solution share more code, I just created new functions and marched on. I even wrote two functions to parse the input file, even though I usually (on previous days) just write one and use it for both parts. Now the `lib.rs` file feels like it's filled by two different modules. I failed to predict what kind of question part 2 will be, and because of it, the part 1 solution code couldn't fit with new requirements. It also forced me to solve part 2 in part 1's mindset, causing the whole process to even get more jumbled.
 
 I did get two stars for this day, but I'm not that happy.
+
+## Day 15
+
+I, uh, took a month break because reasons. But it's not like I planned on finishing this on time anyway. I'm a "my pace" kind of guy (that's Japanglish).
+
+This one's easy, probably because it's an intro to hash maps? Though I've been using hash maps for solutions of prior days. Still, this one is where "hash maps" super explicitly mentioned in the problem. I guess that's on me for using a higher-level language.
+
+But on the flip side, I think this is the first time I've used *an array*. Uptil now I've relied on the higher-level implementation, `Vec`, which handles length changes and all that difficult stuff for me. But on this day, I opted to create a 256-length array, initialized with 256 empty objects because the problem specifically told me to do so.
