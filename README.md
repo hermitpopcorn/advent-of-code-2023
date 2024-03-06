@@ -115,3 +115,7 @@ I, uh, took a month break because reasons. But it's not like I planned on finish
 This one's easy, probably because it's an intro to hash maps? Though I've been using hash maps for solutions of prior days. Still, this one is where "hash maps" super explicitly mentioned in the problem. I guess that's on me for using a higher-level language.
 
 But on the flip side, I think this is the first time I've used *an array*. Uptil now I've relied on the higher-level implementation, `Vec`, which handles length changes and all that difficult stuff for me. But on this day, I opted to create a 256-length array, initialized with 256 empty objects because the problem specifically told me to do so.
+
+## Day 16
+
+Today's a mix of state machines and recursion. It wasn't difficult, but I did clumsily fell into a pitfall where I did not add a "do not recurse over the path we've taken once already" logic, which caused a stack overflow because the recursion went into an endless loop. So I added a "cache" vec that keeps track of paths already taken, and exit early if we do meet one. But then I clumsily fell again into the same pit by making that cache vec local to each recursion branch instead of making it global (which did not cause a stack overflow, but made the program take centuries to finish)...
