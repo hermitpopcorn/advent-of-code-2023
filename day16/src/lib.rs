@@ -76,12 +76,12 @@ impl TileType {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TileMap {
     pub tile_map: Vec<Vec<TileType>>,
     pub energy_map: Vec<Vec<usize>>,
-    horizontal_length: usize,
-    vertical_length: usize,
+    pub horizontal_length: usize,
+    pub vertical_length: usize,
     tread_path: TreadPath,
 }
 
