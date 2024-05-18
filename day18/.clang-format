@@ -1,0 +1,11 @@
+ColumnLimit: 0
+DerivePointerAlignment: false
+PointerAlignment: Left
+AllowShortBlocksOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: Empty
+BreakBeforeBraces: Mozilla
+SpaceAfterCStyleCast: true
+UseTab: Always
+IndentWidth: 4
+TabWidth: 4
+IndentCaseLabels: true
