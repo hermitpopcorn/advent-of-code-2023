@@ -119,3 +119,7 @@ But on the flip side, I think this is the first time I've used *an array*. Uptil
 ## Day 16
 
 Today's a mix of state machines and recursion. It wasn't difficult, but I did clumsily fell into a pitfall where I did not add a "do not recurse over the path we've taken once already" logic, which caused a stack overflow because the recursion went into an endless loop. So I added a "cache" vec that keeps track of paths already taken, and exit early if we do meet one. But then I clumsily fell again into the same pit by making that cache vec local to each recursion branch instead of making it global (which did not cause a stack overflow, but made the program take centuries to finish)...
+
+## Day 17
+
+I gave up on this one... I don't know what else I can do to optimize the code. It can get the example answer just fine, but running the real problem takes eons to complete...
