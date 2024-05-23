@@ -4,7 +4,7 @@
 
 int main()
 {
-	struct DigInstructions parseResult = ParseFile("input/example.txt");
+	struct DigInstructions parseResult = ParseFile("input/real.txt");
 
 	for (int i = 0; i < parseResult.size; i++) {
 		struct DigInstruction* instruction = &parseResult.instructions[i];
