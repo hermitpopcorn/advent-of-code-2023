@@ -54,11 +54,8 @@ struct DigInstructionParseResult ParseDigInstructionFromLine(char* line)
 		}
 
 		else if (segment == 2) {
-			color = malloc(sizeof(char) * 6 + 1);
-			for (int i = 0; i < 6; i++) {
-				color[i] = split[i + 2];
-			}
-			color[6] = '\0';
+			color = malloc(sizeof(char) * (6 + 1));
+			strncpy(color, &split[2], 6);
 			segment++;
 		}
 	}
