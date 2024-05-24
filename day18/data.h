@@ -24,3 +24,15 @@ struct DigInstructions
 	struct DigInstruction* instructions;
 	int size;
 };
+
+enum TerrainType {
+	Ground,
+	Trench,
+	Interior,
+};
+
+struct DigMap {
+	unsigned int width;
+	unsigned int length;
+	enum TerrainType* map;
+};
