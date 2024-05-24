@@ -4,7 +4,73 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct DigInstructionParseResult ParseDigInstructionFromLine(char* line)
+static int CountItemsInFile(FILE*);
+static struct DigInstructionParseResult ParseDigInstructionFromLine(char*);
+
+struct DigInstructions ParseFile(char* filename)
+{
+	struct DigInstructions noResult = {NULL, 0};
+
+	struct DigInstruction* instructions = NULL;
+	FILE* handler = fopen(filename, "r");
+	int items = 0;
+
+	if (handler) {
+		// Count items in file and allocate memory
+		items = CountItemsInFile(handler);
+		if (items < 1) {
+			return noResult;
+		}
+		instructions = (struct DigInstruction*) malloc(sizeof(struct DigInstruction) * items);
+
+		// Rewind file handler
+		rewind(handler);
+
+		// Parse line by line
+		int lineLength = 24;
+		int lineIndex = 0;
+		char* line = malloc(sizeof(char) * lineLength);
+		while (1) {
+			// Read line and trim the trailing newline
+			fgets(line, lineLength, handler);
+			if (feof(handler)) {
+				break;
+			}
+			line[strcspn(line, "\n")] = '\0';
+
+			// Parse and add to instructions if OK
+			struct DigInstructionParseResult parse = ParseDigInstructionFromLine(line);
+			if (!parse.ok) {
+				continue;
+			}
+			instructions[lineIndex] = parse.di;
+			lineIndex++;
+		};
+
+		free(line);
+		line = NULL;
+		fclose(handler);
+		handler = NULL;
+	}
+
+	struct DigInstructions instructionsContainer = {instructions, items};
+	return instructionsContainer;
+}
+
+static int CountItemsInFile(FILE* handler)
+{
+	int items = 0;
+	char ch;
+	while ((ch = fgetc(handler)) != EOF) {
+		if (ch == '\n') {
+			items++;
+		}
+	}
+
+	return items;
+}
+
+static struct DigInstructionParseResult ParseDigInstructionFromLine(char* line)
 {
 #define DELIMITER " "
 	int segment = 0;
@@ -67,67 +133,4 @@ struct DigInstructionParseResult ParseDigInstructionFromLine(char* line)
 	};
 	struct DigInstructionParseResult result = {ok, di};
 	return result;
-}
-
-int CountItemsInFile(FILE* handler)
-{
-	int items = 0;
-	char ch;
-	while ((ch = fgetc(handler)) != EOF) {
-		if (ch == '\n') {
-			items++;
-		}
-	}
-
-	return items;
-}
-
-struct DigInstructions ParseFile(char* filename)
-{
-	struct DigInstructions noResult = {NULL, 0};
-
-	struct DigInstruction* instructions = NULL;
-	FILE* handler = fopen(filename, "r");
-	int items = 0;
-
-	if (handler) {
-		// Count items in file and allocate memory
-		items = CountItemsInFile(handler);
-		if (items < 1) {
-			return noResult;
-		}
-		instructions = (struct DigInstruction*) malloc(sizeof(struct DigInstruction) * items);
-
-		// Rewind file handler
-		rewind(handler);
-
-		// Parse line by line
-		int lineLength = 24;
-		int lineIndex = 0;
-		char* line = malloc(sizeof(char) * lineLength);
-		while (1) {
-			// Read line and trim the trailing newline
-			fgets(line, lineLength, handler);
-			if (feof(handler)) {
-				break;
-			}
-			line[strcspn(line, "\n")] = '\0';
-
-			// Parse and add to instructions if OK
-			struct DigInstructionParseResult parse = ParseDigInstructionFromLine(line);
-			if (!parse.ok) {
-				continue;
-			}
-			instructions[lineIndex] = parse.di;
-			lineIndex++;
-		};
-
-		free(line);
-		line = NULL;
-		fclose(handler);
-		handler = NULL;
-	}
-
-	struct DigInstructions instructionsContainer = {instructions, items};
-	return instructionsContainer;
 }
