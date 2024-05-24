@@ -1,5 +1,6 @@
 #include "data.h"
 #include "parser.h"
+#include "process.h"
 #include <stdio.h>
 
 int main(int argc, char* argv[])
@@ -14,10 +15,7 @@ int main(int argc, char* argv[])
 		printf("Could not find dig instructions.\n");
 	}
 
-	for (int i = 0; i < parseResult.size; i++) {
-		struct DigInstruction* instruction = &parseResult.instructions[i];
-		printf("Dig Instruction %d: %c | %d | #%s\n", i + 1, instruction->direction, instruction->distance, instruction->color);
-	}
+	struct DigMap digMap = createDigMap(&parseResult);
 
 	return 0;
 }
